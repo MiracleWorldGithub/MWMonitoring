@@ -1,0 +1,12 @@
+name: MWMonitoring
+version: '${project.version}'
+main: com.miracleworld.valete.Monitoring
+api-version: 1.17
+prefix: MWMonitoring
+authors: [ Valete_ ]
+depend:
+  - spark
+commands:
+  usage:
+    description: See server usage
+    usage: /usage

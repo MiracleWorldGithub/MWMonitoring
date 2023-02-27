@@ -1,0 +1,5 @@
+name: MWMonitoring
+version: 1.0
+author: Valete_
+main: com.miracleworld.valete.Monitoring
+api-version: 1.17
