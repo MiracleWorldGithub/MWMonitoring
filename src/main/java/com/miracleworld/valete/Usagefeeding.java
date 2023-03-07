@@ -19,13 +19,10 @@ import static com.miracleworld.valete.Monitoring.spark;
 
 public class Usagefeeding {
   public void sendFeed(FileConfiguration config) {
-    Bukkit.getLogger().info("sending feed");
-
     final DecimalFormat df = new DecimalFormat("#.##");
 
     // get current memory used from runtime
     Runtime r = Runtime.getRuntime();
-    long memUsed = (r.totalMemory() - r.freeMemory());
 
     // Using spark's api to get tps and cpu usage
     DoubleStatistic<StatisticWindow.TicksPerSecond> tps = spark.tps();
@@ -76,9 +73,9 @@ public class Usagefeeding {
           "\"tps\":"+df.format(tpsLast1min)+",\n" +
           "\"cpu\":"+df.format(usagelast1min)+",\n" +
           "\"ramMB\": {\n" +
-          "\"used\":"+Math.floor(memUsed / 1048576)+",\n" +
+          "\"used\":"+Math.floor(r.totalMemory() / 1048576)+",\n" +
           "\"total\":"+Math.floor(r.maxMemory() / 1048576)+",\n" +
-          "\"free\":"+Math.floor((r.maxMemory()-memUsed) / 1048576)+"},\n" +
+          "\"free\":"+Math.floor((r.maxMemory()-r.totalMemory()) / 1048576)+"},\n" +
           "\"ping\": {\n" +
           "\"average\":"+Math.floor(pingaverage)+",\n" +
           "\"median\":"+Math.floor(pingmedian)+",\n" +
@@ -97,9 +94,12 @@ public class Usagefeeding {
       if (http.getResponseCode() != 200) {
         Bukkit.getLogger().info(http.getResponseCode() + " " + http.getResponseMessage());
       }
+
+      Bukkit.getLogger().info("[MWMonitoring] Feed sent");
+
       http.disconnect();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      Bukkit.getLogger().info("[MWMonitoring] Error occurred while sending feed");
     }
 
   }
