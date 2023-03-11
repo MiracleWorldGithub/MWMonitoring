@@ -29,7 +29,7 @@ public class Usagefeeding {
     double tpsLast1min = tps.poll(StatisticWindow.TicksPerSecond.MINUTES_1);
 
     DoubleStatistic<StatisticWindow.CpuUsage> cpuUsage = spark.cpuSystem();
-    double usagelast1min = cpuUsage.poll(StatisticWindow.CpuUsage.MINUTES_1);
+    double usagelast1min = cpuUsage.poll(StatisticWindow.CpuUsage.MINUTES_1)*100;
 
     // Getting average|median|min|max ping of online players
     // creating and appending ping from all players to array
